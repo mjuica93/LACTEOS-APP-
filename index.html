@@ -288,6 +288,26 @@
             font-size: 1.5em;
             color: #c0392b;
             font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .product-card .unit {
+            color: #666;
+            font-size: 0.8em;
+            margin-left: 5px;
+        }
+
+        .product-card .nutritional-info {
+            background: #f8f9fa;
+            padding: 8px;
+            border-radius: 6px;
+            margin: 10px 0;
+            border-left: 3px solid #e74c3c;
+        }
+
+        .product-card .nutritional-info small {
+            color: #555;
+            font-size: 0.85em;
         }
 
         .form-group {
@@ -497,7 +517,7 @@
                 <div class="dashboard-grid">
                     <div class="card" data-aos="fade-up" data-aos-delay="100">
                         <h3><i class="fas fa-box"></i> Total Productos</h3>
-                        <div class="number">24</div>
+                        <div class="number" id="totalProducts">15</div>
                     </div>
                     <div class="card" data-aos="fade-up" data-aos-delay="200">
                         <h3><i class="fas fa-users"></i> Clientes Activos</h3>
@@ -559,11 +579,12 @@
                     <div class="form-group">
                         <label>Categoría:</label>
                         <select id="productCategory">
-                            <option value="yogures">Yogures</option>
-                            <option value="leches">Leches</option>
-                            <option value="quesos">Quesos</option>
-                            <option value="mantequillas">Mantequillas</option>
-                            <option value="postres">Postres Lácteos</option>
+                            <option value="Leches">Leches</option>
+                            <option value="Yogures">Yogures</option>
+                            <option value="Quesos">Quesos</option>
+                            <option value="Mantequillas">Mantequillas</option>
+                            <option value="Postres Lácteos">Postres Lácteos</option>
+                            <option value="Bebidas Lácteas">Bebidas Lácteas</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -737,14 +758,42 @@
     </div>
 
     <script>
-        // Datos de ejemplo
-        let products = [
-            { id: 1, name: 'Yogur Natural Griego', description: 'Yogur griego natural, rico en proteínas', category: 'yogures', price: 2.50 },
-            { id: 2, name: 'Leche Entera Fresca', description: 'Leche entera fresca de vaca', category: 'leches', price: 1.80 },
-            { id: 3, name: 'Queso Manchego Curado', description: 'Queso manchego curado 12 meses', category: 'quesos', price: 8.90 },
-            { id: 4, name: 'Mantequilla Sin Sal', description: 'Mantequilla natural sin sal', category: 'mantequillas', price: 3.20 },
-            { id: 5, name: 'Flan Casero', description: 'Flan casero tradicional', category: 'postres', price: 2.80 }
-        ];
+        // Datos reales de Soprole
+        let products = [];
+        let categories = [];
+        
+        // Cargar datos del catálogo real de Soprole
+        async function loadSoproleCatalog() {
+            try {
+                const response = await fetch('soprole-products.json');
+                const data = await response.json();
+                products = data.products;
+                categories = data.categories;
+                console.log('Catálogo de Soprole cargado:', products.length, 'productos');
+                loadProducts(); // Recargar productos en la interfaz
+                updateDashboardStats(); // Actualizar estadísticas del dashboard
+            } catch (error) {
+                console.error('Error cargando catálogo:', error);
+                // Datos de respaldo si no se puede cargar el JSON
+                loadBackupData();
+                updateDashboardStats();
+            }
+        }
+        
+        function loadBackupData() {
+            products = [
+                { id: 1, name: 'Leche Soprole Entera', description: 'Leche entera fresca de vaca, rica en calcio y vitaminas', category: 'Leches', price: 1.80, unit: '1L' },
+                { id: 2, name: 'Yogur Soprole Natural', description: 'Yogur natural sin azúcar, rico en probióticos y proteínas', category: 'Yogures', price: 2.50, unit: '170g' },
+                { id: 3, name: 'Queso Soprole Gouda', description: 'Queso Gouda maduro, perfecto para sándwiches y cocina', category: 'Quesos', price: 8.90, unit: '200g' },
+                { id: 4, name: 'Mantequilla Soprole Sin Sal', description: 'Mantequilla natural sin sal agregada, perfecta para cocinar', category: 'Mantequillas', price: 3.80, unit: '200g' }
+            ];
+            categories = [
+                { id: 1, name: 'Leches', icon: 'fas fa-milk-bottle' },
+                { id: 2, name: 'Yogures', icon: 'fas fa-cheese' },
+                { id: 3, name: 'Quesos', icon: 'fas fa-cheese' },
+                { id: 4, name: 'Mantequillas', icon: 'fas fa-bread-slice' }
+            ];
+        }
 
         let clients = [
             { id: 1, name: 'Supermercado Central', email: 'pedidos@supercentral.com', phone: '+34 91 123 4567', businessType: 'supermercado' },
@@ -795,6 +844,9 @@
 
         function loadSectionData(sectionId) {
             switch(sectionId) {
+                case 'dashboard':
+                    updateDashboardStats();
+                    break;
                 case 'products':
                     loadProducts();
                     break;
@@ -807,6 +859,14 @@
                 case 'sales':
                     loadSales();
                     break;
+            }
+        }
+
+        function updateDashboardStats() {
+            // Actualizar estadísticas del dashboard
+            const totalProductsElement = document.getElementById('totalProducts');
+            if (totalProductsElement) {
+                totalProductsElement.textContent = products.length;
             }
         }
 
@@ -870,11 +930,25 @@
             products.forEach(product => {
                 const productCard = document.createElement('div');
                 productCard.className = 'product-card';
+                
+                // Información nutricional si está disponible
+                const nutritionalInfo = product.nutritionalInfo ? `
+                    <div class="nutritional-info">
+                        <small><strong>Calorías:</strong> ${product.nutritionalInfo.calories} kcal</small><br>
+                        <small><strong>Proteínas:</strong> ${product.nutritionalInfo.protein}</small><br>
+                        <small><strong>Calcio:</strong> ${product.nutritionalInfo.calcium}</small>
+                    </div>
+                ` : '';
+                
+                // Unidad si está disponible
+                const unit = product.unit ? `<small class="unit">${product.unit}</small>` : '';
+                
                 productCard.innerHTML = `
                     <h4>${product.name}</h4>
                     <p>${product.description}</p>
                     <p><strong>Categoría:</strong> ${product.category}</p>
-                    <div class="price">€${product.price.toFixed(2)}</div>
+                    ${nutritionalInfo}
+                    <div class="price">€${product.price.toFixed(2)} ${unit}</div>
                 `;
                 container.appendChild(productCard);
             });
@@ -1185,6 +1259,9 @@
         // Inicializar la aplicación
         document.addEventListener('DOMContentLoaded', function() {
             console.log('Aplicación inicializada');
+            
+            // Cargar catálogo real de Soprole
+            loadSoproleCatalog();
             
             // Asegurar que el dashboard esté visible al inicio
             showSection('dashboard');

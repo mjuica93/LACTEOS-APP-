@@ -1,0 +1,327 @@
+{
+  "categories": [
+    {
+      "id": 1,
+      "name": "Leches",
+      "icon": "fas fa-milk-bottle",
+      "description": "Leches frescas y procesadas"
+    },
+    {
+      "id": 2,
+      "name": "Yogures",
+      "icon": "fas fa-cheese",
+      "description": "Yogures naturales y saborizados"
+    },
+    {
+      "id": 3,
+      "name": "Quesos",
+      "icon": "fas fa-cheese",
+      "description": "Variedad de quesos frescos y maduros"
+    },
+    {
+      "id": 4,
+      "name": "Mantequillas",
+      "icon": "fas fa-bread-slice",
+      "description": "Mantequillas y margarinas"
+    },
+    {
+      "id": 5,
+      "name": "Postres Lácteos",
+      "icon": "fas fa-ice-cream",
+      "description": "Postres y cremas lácteas"
+    },
+    {
+      "id": 6,
+      "name": "Bebidas Lácteas",
+      "icon": "fas fa-glass-whiskey",
+      "description": "Bebidas lácteas y batidos"
+    }
+  ],
+  "products": [
+    {
+      "id": 1,
+      "name": "Leche Soprole Entera",
+      "description": "Leche entera fresca de vaca, rica en calcio y vitaminas",
+      "category": "Leches",
+      "categoryId": 1,
+      "price": 1.80,
+      "unit": "1L",
+      "nutritionalInfo": {
+        "calories": 120,
+        "protein": "3.2g",
+        "fat": "3.5g",
+        "carbohydrates": "4.8g",
+        "calcium": "120mg"
+      },
+      "ingredients": ["Leche entera", "Vitaminas A y D"],
+      "allergens": ["Lactosa"],
+      "image": "leche-entera.jpg"
+    },
+    {
+      "id": 2,
+      "name": "Leche Soprole Semidescremada",
+      "description": "Leche semidescremada con 2% de grasa, ideal para una dieta balanceada",
+      "category": "Leches",
+      "categoryId": 1,
+      "price": 1.70,
+      "unit": "1L",
+      "nutritionalInfo": {
+        "calories": 100,
+        "protein": "3.2g",
+        "fat": "2.0g",
+        "carbohydrates": "4.8g",
+        "calcium": "120mg"
+      },
+      "ingredients": ["Leche semidescremada", "Vitaminas A y D"],
+      "allergens": ["Lactosa"],
+      "image": "leche-semidescremada.jpg"
+    },
+    {
+      "id": 3,
+      "name": "Leche Soprole Descremada",
+      "description": "Leche descremada sin grasa, perfecta para dietas bajas en calorías",
+      "category": "Leches",
+      "categoryId": 1,
+      "price": 1.60,
+      "unit": "1L",
+      "nutritionalInfo": {
+        "calories": 80,
+        "protein": "3.2g",
+        "fat": "0.1g",
+        "carbohydrates": "4.8g",
+        "calcium": "120mg"
+      },
+      "ingredients": ["Leche descremada", "Vitaminas A y D"],
+      "allergens": ["Lactosa"],
+      "image": "leche-descremada.jpg"
+    },
+    {
+      "id": 4,
+      "name": "Yogur Soprole Natural",
+      "description": "Yogur natural sin azúcar, rico en probióticos y proteínas",
+      "category": "Yogures",
+      "categoryId": 2,
+      "price": 2.50,
+      "unit": "170g",
+      "nutritionalInfo": {
+        "calories": 90,
+        "protein": "8.0g",
+        "fat": "3.5g",
+        "carbohydrates": "4.0g",
+        "calcium": "200mg"
+      },
+      "ingredients": ["Leche entera", "Cultivos lácteos", "Probióticos"],
+      "allergens": ["Lactosa"],
+      "image": "yogur-natural.jpg"
+    },
+    {
+      "id": 5,
+      "name": "Yogur Soprole Griego Natural",
+      "description": "Yogur griego natural, alto en proteínas y cremoso",
+      "category": "Yogures",
+      "categoryId": 2,
+      "price": 3.20,
+      "unit": "170g",
+      "nutritionalInfo": {
+        "calories": 120,
+        "protein": "12.0g",
+        "fat": "4.0g",
+        "carbohydrates": "3.0g",
+        "calcium": "180mg"
+      },
+      "ingredients": ["Leche entera", "Cultivos lácteos", "Probióticos"],
+      "allergens": ["Lactosa"],
+      "image": "yogur-griego.jpg"
+    },
+    {
+      "id": 6,
+      "name": "Yogur Soprole Frutilla",
+      "description": "Yogur saborizado con frutilla natural, delicioso y nutritivo",
+      "category": "Yogures",
+      "categoryId": 2,
+      "price": 2.80,
+      "unit": "170g",
+      "nutritionalInfo": {
+        "calories": 130,
+        "protein": "6.0g",
+        "fat": "3.0g",
+        "carbohydrates": "18.0g",
+        "calcium": "180mg"
+      },
+      "ingredients": ["Leche entera", "Frutilla", "Azúcar", "Cultivos lácteos"],
+      "allergens": ["Lactosa"],
+      "image": "yogur-frutilla.jpg"
+    },
+    {
+      "id": 7,
+      "name": "Queso Soprole Gouda",
+      "description": "Queso Gouda maduro, perfecto para sándwiches y cocina",
+      "category": "Quesos",
+      "categoryId": 3,
+      "price": 8.90,
+      "unit": "200g",
+      "nutritionalInfo": {
+        "calories": 280,
+        "protein": "18.0g",
+        "fat": "22.0g",
+        "carbohydrates": "1.0g",
+        "calcium": "600mg"
+      },
+      "ingredients": ["Leche entera", "Sal", "Cultivos lácteos", "Cuajo"],
+      "allergens": ["Lactosa"],
+      "image": "queso-gouda.jpg"
+    },
+    {
+      "id": 8,
+      "name": "Queso Soprole Manchego",
+      "description": "Queso Manchego curado 12 meses, sabor intenso y textura firme",
+      "category": "Quesos",
+      "categoryId": 3,
+      "price": 12.50,
+      "unit": "200g",
+      "nutritionalInfo": {
+        "calories": 320,
+        "protein": "20.0g",
+        "fat": "25.0g",
+        "carbohydrates": "0.5g",
+        "calcium": "700mg"
+      },
+      "ingredients": ["Leche de oveja", "Sal", "Cultivos lácteos", "Cuajo"],
+      "allergens": ["Lactosa"],
+      "image": "queso-manchego.jpg"
+    },
+    {
+      "id": 9,
+      "name": "Queso Soprole Fresco",
+      "description": "Queso fresco cremoso, ideal para ensaladas y salsas",
+      "category": "Quesos",
+      "categoryId": 3,
+      "price": 4.50,
+      "unit": "200g",
+      "nutritionalInfo": {
+        "calories": 180,
+        "protein": "12.0g",
+        "fat": "14.0g",
+        "carbohydrates": "2.0g",
+        "calcium": "300mg"
+      },
+      "ingredients": ["Leche entera", "Sal", "Cultivos lácteos"],
+      "allergens": ["Lactosa"],
+      "image": "queso-fresco.jpg"
+    },
+    {
+      "id": 10,
+      "name": "Mantequilla Soprole Sin Sal",
+      "description": "Mantequilla natural sin sal agregada, perfecta para cocinar",
+      "category": "Mantequillas",
+      "categoryId": 4,
+      "price": 3.80,
+      "unit": "200g",
+      "nutritionalInfo": {
+        "calories": 720,
+        "protein": "0.8g",
+        "fat": "80.0g",
+        "carbohydrates": "0.1g",
+        "calcium": "20mg"
+      },
+      "ingredients": ["Crema de leche", "Cultivos lácteos"],
+      "allergens": ["Lactosa"],
+      "image": "mantequilla-sin-sal.jpg"
+    },
+    {
+      "id": 11,
+      "name": "Mantequilla Soprole Con Sal",
+      "description": "Mantequilla con sal, ideal para untar en pan y cocinar",
+      "category": "Mantequillas",
+      "categoryId": 4,
+      "price": 3.60,
+      "unit": "200g",
+      "nutritionalInfo": {
+        "calories": 720,
+        "protein": "0.8g",
+        "fat": "80.0g",
+        "carbohydrates": "0.1g",
+        "calcium": "20mg"
+      },
+      "ingredients": ["Crema de leche", "Sal", "Cultivos lácteos"],
+      "allergens": ["Lactosa"],
+      "image": "mantequilla-con-sal.jpg"
+    },
+    {
+      "id": 12,
+      "name": "Postre Soprole Flan",
+      "description": "Flan casero tradicional, cremoso y delicioso",
+      "category": "Postres Lácteos",
+      "categoryId": 5,
+      "price": 2.20,
+      "unit": "125g",
+      "nutritionalInfo": {
+        "calories": 180,
+        "protein": "4.0g",
+        "fat": "6.0g",
+        "carbohydrates": "28.0g",
+        "calcium": "120mg"
+      },
+      "ingredients": ["Leche entera", "Azúcar", "Huevos", "Vainilla"],
+      "allergens": ["Lactosa", "Huevos"],
+      "image": "flan.jpg"
+    },
+    {
+      "id": 13,
+      "name": "Postre Soprole Arroz con Leche",
+      "description": "Arroz con leche tradicional, con canela y pasas",
+      "category": "Postres Lácteos",
+      "categoryId": 5,
+      "price": 2.50,
+      "unit": "150g",
+      "nutritionalInfo": {
+        "calories": 220,
+        "protein": "5.0g",
+        "fat": "4.0g",
+        "carbohydrates": "42.0g",
+        "calcium": "150mg"
+      },
+      "ingredients": ["Leche entera", "Arroz", "Azúcar", "Canela", "Pasas"],
+      "allergens": ["Lactosa"],
+      "image": "arroz-con-leche.jpg"
+    },
+    {
+      "id": 14,
+      "name": "Bebida Soprole Batido Chocolate",
+      "description": "Batido de chocolate cremoso, perfecto para el desayuno",
+      "category": "Bebidas Lácteas",
+      "categoryId": 6,
+      "price": 3.50,
+      "unit": "250ml",
+      "nutritionalInfo": {
+        "calories": 280,
+        "protein": "8.0g",
+        "fat": "8.0g",
+        "carbohydrates": "45.0g",
+        "calcium": "250mg"
+      },
+      "ingredients": ["Leche entera", "Chocolate", "Azúcar", "Cacao"],
+      "allergens": ["Lactosa"],
+      "image": "batido-chocolate.jpg"
+    },
+    {
+      "id": 15,
+      "name": "Bebida Soprole Batido Frutilla",
+      "description": "Batido de frutilla natural, refrescante y nutritivo",
+      "category": "Bebidas Lácteas",
+      "categoryId": 6,
+      "price": 3.30,
+      "unit": "250ml",
+      "nutritionalInfo": {
+        "calories": 240,
+        "protein": "7.0g",
+        "fat": "6.0g",
+        "carbohydrates": "42.0g",
+        "calcium": "220mg"
+      },
+      "ingredients": ["Leche entera", "Frutilla", "Azúcar", "Vitaminas"],
+      "allergens": ["Lactosa"],
+      "image": "batido-frutilla.jpg"
+    }
+  ]
+} 
