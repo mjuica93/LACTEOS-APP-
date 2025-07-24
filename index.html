@@ -473,19 +473,19 @@
         </div>
 
         <div class="nav">
-            <button onclick="showSection('dashboard')" class="active">
+            <button onclick="showSection('dashboard', event)" class="active">
                 <i class="fas fa-chart-line"></i> Dashboard
             </button>
-            <button onclick="showSection('products')">
+            <button onclick="showSection('products', event)">
                 <i class="fas fa-milk-bottle"></i> Productos
             </button>
-            <button onclick="showSection('clients')">
+            <button onclick="showSection('clients', event)">
                 <i class="fas fa-users"></i> Clientes
             </button>
-            <button onclick="showSection('presentations')">
+            <button onclick="showSection('presentations', event)">
                 <i class="fas fa-file-alt"></i> Presentaciones
             </button>
-            <button onclick="showSection('sales')">
+            <button onclick="showSection('sales', event)">
                 <i class="fas fa-dollar-sign"></i> Ventas
             </button>
         </div>
@@ -753,7 +753,7 @@
         ];
 
         // Funciones de navegación
-        function showSection(sectionId) {
+        function showSection(sectionId, event) {
             // Ocultar todas las secciones
             document.querySelectorAll('.section').forEach(section => {
                 section.classList.remove('active');
@@ -766,7 +766,11 @@
             document.querySelectorAll('.nav button').forEach(button => {
                 button.classList.remove('active');
             });
-            event.target.classList.add('active');
+            
+            // Marcar el botón clickeado como activo
+            if (event && event.target) {
+                event.target.classList.add('active');
+            }
             
             // Cargar datos específicos de la sección
             loadSectionData(sectionId);
