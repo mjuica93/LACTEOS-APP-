@@ -536,6 +536,12 @@
             <!-- Productos -->
             <div id="products" class="section">
                 <h2><i class="fas fa-milk-bottle"></i> Gestión de Productos</h2>
+                
+                <!-- Botón de prueba temporal -->
+                <button class="btn" onclick="testButton()" style="margin-right: 10px; background: #28a745;">
+                    <i class="fas fa-check"></i> Probar JavaScript
+                </button>
+                
                 <button class="btn" onclick="showAddProductForm()">
                     <i class="fas fa-plus"></i> Agregar Producto
                 </button>
@@ -806,13 +812,16 @@
 
         // Funciones de productos
         function showAddProductForm() {
-            console.log('Mostrando formulario de productos');
-            const form = document.getElementById('addProductForm');
-            if (form) {
-                form.style.display = 'block';
-                console.log('Formulario de productos mostrado');
-            } else {
-                console.error('Formulario de productos no encontrado');
+            try {
+                const form = document.getElementById('addProductForm');
+                if (form) {
+                    form.style.display = 'block';
+                    console.log('Formulario de productos mostrado');
+                } else {
+                    console.error('Formulario de productos no encontrado');
+                }
+            } catch (error) {
+                console.error('Error en showAddProductForm:', error);
             }
         }
 
@@ -825,32 +834,33 @@
         }
 
         function addProduct() {
-            console.log('Agregando producto...');
-            const name = document.getElementById('productName').value;
-            const description = document.getElementById('productDescription').value;
-            const category = document.getElementById('productCategory').value;
-            const price = parseFloat(document.getElementById('productPrice').value);
+            try {
+                const name = document.getElementById('productName').value;
+                const description = document.getElementById('productDescription').value;
+                const category = document.getElementById('productCategory').value;
+                const price = parseFloat(document.getElementById('productPrice').value);
 
-            console.log('Datos del producto:', { name, description, category, price });
+                if (!name || !description || !price) {
+                    alert('Por favor, completa todos los campos');
+                    return;
+                }
 
-            if (!name || !description || !price) {
-                alert('Por favor, completa todos los campos');
-                return;
+                const newProduct = {
+                    id: products.length + 1,
+                    name: name,
+                    description: description,
+                    category: category,
+                    price: price
+                };
+
+                products.push(newProduct);
+                hideAddProductForm();
+                loadProducts();
+                showMessage('Producto agregado exitosamente', 'success');
+            } catch (error) {
+                console.error('Error en addProduct:', error);
+                alert('Error al agregar producto: ' + error.message);
             }
-
-            const newProduct = {
-                id: products.length + 1,
-                name: name,
-                description: description,
-                category: category,
-                price: price
-            };
-
-            products.push(newProduct);
-            console.log('Producto agregado:', newProduct);
-            hideAddProductForm();
-            loadProducts();
-            showMessage('Producto agregado exitosamente', 'success');
         }
 
         function loadProducts() {
@@ -872,13 +882,15 @@
 
         // Funciones de clientes
         function showAddClientForm() {
-            console.log('Mostrando formulario de clientes');
-            const form = document.getElementById('addClientForm');
-            if (form) {
-                form.style.display = 'block';
-                console.log('Formulario de clientes mostrado');
-            } else {
-                console.error('Formulario de clientes no encontrado');
+            try {
+                const form = document.getElementById('addClientForm');
+                if (form) {
+                    form.style.display = 'block';
+                } else {
+                    console.error('Formulario de clientes no encontrado');
+                }
+            } catch (error) {
+                console.error('Error en showAddClientForm:', error);
             }
         }
 
@@ -891,32 +903,33 @@
         }
 
         function addClient() {
-            console.log('Agregando cliente...');
-            const name = document.getElementById('clientName').value;
-            const email = document.getElementById('clientEmail').value;
-            const phone = document.getElementById('clientPhone').value;
-            const businessType = document.getElementById('clientBusinessType').value;
+            try {
+                const name = document.getElementById('clientName').value;
+                const email = document.getElementById('clientEmail').value;
+                const phone = document.getElementById('clientPhone').value;
+                const businessType = document.getElementById('clientBusinessType').value;
 
-            console.log('Datos del cliente:', { name, email, phone, businessType });
+                if (!name || !email || !phone) {
+                    alert('Por favor, completa todos los campos obligatorios');
+                    return;
+                }
 
-            if (!name || !email || !phone) {
-                alert('Por favor, completa todos los campos obligatorios');
-                return;
+                const newClient = {
+                    id: clients.length + 1,
+                    name: name,
+                    email: email,
+                    phone: phone,
+                    businessType: businessType
+                };
+
+                clients.push(newClient);
+                hideAddClientForm();
+                loadClients();
+                showMessage('Cliente agregado exitosamente', 'success');
+            } catch (error) {
+                console.error('Error en addClient:', error);
+                alert('Error al agregar cliente: ' + error.message);
             }
-
-            const newClient = {
-                id: clients.length + 1,
-                name: name,
-                email: email,
-                phone: phone,
-                businessType: businessType
-            };
-
-            clients.push(newClient);
-            console.log('Cliente agregado:', newClient);
-            hideAddClientForm();
-            loadClients();
-            showMessage('Cliente agregado exitosamente', 'success');
         }
 
         function loadClients() {
@@ -1013,54 +1026,36 @@
         }
 
         function downloadPresentation() {
-            console.log('Descargando presentación...');
-            const clientId = document.getElementById('presentationClient').value;
-            const title = document.getElementById('presentationTitle').value;
-            
-            console.log('Datos de presentación:', { clientId, title });
+            try {
+                const clientId = document.getElementById('presentationClient').value;
+                const title = document.getElementById('presentationTitle').value;
 
-            if (!clientId || !title) {
-                alert('Por favor, completa todos los campos');
-                return;
-            }
-
-            const client = clients.find(c => c.id === parseInt(clientId));
-            const selectedProducts = [];
-            
-            // Obtener productos seleccionados
-            products.forEach(product => {
-                const checkbox = document.getElementById(`product_${product.id}`);
-                if (checkbox && checkbox.checked) {
-                    selectedProducts.push(product);
+                if (!clientId || !title) {
+                    alert('Por favor, completa todos los campos');
+                    return;
                 }
-            });
 
-            console.log('Productos seleccionados:', selectedProducts);
+                const client = clients.find(c => c.id === parseInt(clientId));
+                const selectedProducts = [];
+                
+                // Obtener productos seleccionados
+                products.forEach(product => {
+                    const checkbox = document.getElementById(`product_${product.id}`);
+                    if (checkbox && checkbox.checked) {
+                        selectedProducts.push(product);
+                    }
+                });
 
-            if (selectedProducts.length === 0) {
-                alert('Por favor, selecciona al menos un producto');
-                return;
+                if (selectedProducts.length === 0) {
+                    alert('Por favor, selecciona al menos un producto');
+                    return;
+                }
+
+                alert('PDF generado exitosamente. En una implementación real, se descargaría el archivo.');
+            } catch (error) {
+                console.error('Error en downloadPresentation:', error);
+                alert('Error al generar PDF: ' + error.message);
             }
-
-            // Crear contenido del PDF
-            let pdfContent = `
-                <h1>${title}</h1>
-                <h2>Cliente: ${client.name}</h2>
-                <h3>Productos Seleccionados:</h3>
-                <ul>
-            `;
-
-            selectedProducts.forEach(product => {
-                pdfContent += `<li>${product.name} - €${product.price.toFixed(2)}</li>`;
-            });
-
-            pdfContent += `
-                </ul>
-                <p>Fecha: ${new Date().toLocaleDateString()}</p>
-            `;
-
-            console.log('Contenido del PDF generado');
-            alert('PDF generado exitosamente. En una implementación real, se descargaría el archivo.');
         }
 
         function loadPresentations() {
@@ -1071,14 +1066,16 @@
 
         // Funciones de ventas
         function showAddSaleForm() {
-            console.log('Mostrando formulario de ventas');
-            const form = document.getElementById('addSaleForm');
-            if (form) {
-                form.style.display = 'block';
-                loadSaleFormData();
-                console.log('Formulario de ventas mostrado');
-            } else {
-                console.error('Formulario de ventas no encontrado');
+            try {
+                const form = document.getElementById('addSaleForm');
+                if (form) {
+                    form.style.display = 'block';
+                    loadSaleFormData();
+                } else {
+                    console.error('Formulario de ventas no encontrado');
+                }
+            } catch (error) {
+                console.error('Error en showAddSaleForm:', error);
             }
         }
 
@@ -1121,33 +1118,34 @@
         }
 
         function addSale() {
-            console.log('Agregando venta...');
-            const clientId = document.getElementById('saleClient').value;
-            const productId = document.getElementById('saleProduct').value;
-            const quantity = parseInt(document.getElementById('saleQuantity').value);
-            const total = parseFloat(document.getElementById('saleTotal').value);
+            try {
+                const clientId = document.getElementById('saleClient').value;
+                const productId = document.getElementById('saleProduct').value;
+                const quantity = parseInt(document.getElementById('saleQuantity').value);
+                const total = parseFloat(document.getElementById('saleTotal').value);
 
-            console.log('Datos de la venta:', { clientId, productId, quantity, total });
+                if (!clientId || !productId || !quantity || !total) {
+                    alert('Por favor, completa todos los campos');
+                    return;
+                }
 
-            if (!clientId || !productId || !quantity || !total) {
-                alert('Por favor, completa todos los campos');
-                return;
+                const newSale = {
+                    id: sales.length + 1,
+                    date: new Date().toISOString().split('T')[0],
+                    clientId: parseInt(clientId),
+                    productId: parseInt(productId),
+                    quantity: quantity,
+                    total: total
+                };
+
+                sales.push(newSale);
+                hideAddSaleForm();
+                loadSales();
+                showMessage('Venta registrada exitosamente', 'success');
+            } catch (error) {
+                console.error('Error en addSale:', error);
+                alert('Error al agregar venta: ' + error.message);
             }
-
-            const newSale = {
-                id: sales.length + 1,
-                date: new Date().toISOString().split('T')[0],
-                clientId: parseInt(clientId),
-                productId: parseInt(productId),
-                quantity: quantity,
-                total: total
-            };
-
-            sales.push(newSale);
-            console.log('Venta agregada:', newSale);
-            hideAddSaleForm();
-            loadSales();
-            showMessage('Venta registrada exitosamente', 'success');
         }
 
         function loadSales() {
@@ -1198,6 +1196,11 @@
                     showSection(sectionId, e);
                 });
             });
+            
+            // Función de prueba para verificar que los botones funcionan
+            window.testButton = function() {
+                alert('¡Los botones funcionan!');
+            };
             
             // Inicializar animaciones AOS
             if (typeof AOS !== 'undefined') {
