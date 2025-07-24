@@ -754,13 +754,24 @@
 
         // Funciones de navegación
         function showSection(sectionId, event) {
+            console.log('Navegando a:', sectionId); // Debug
+            
             // Ocultar todas las secciones
-            document.querySelectorAll('.section').forEach(section => {
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => {
+                section.style.display = 'none';
                 section.classList.remove('active');
             });
             
             // Mostrar la sección seleccionada
-            document.getElementById(sectionId).classList.add('active');
+            const targetSection = document.getElementById(sectionId);
+            if (targetSection) {
+                targetSection.style.display = 'block';
+                targetSection.classList.add('active');
+                console.log('Sección mostrada:', sectionId);
+            } else {
+                console.error('Sección no encontrada:', sectionId);
+            }
             
             // Actualizar botones activos
             document.querySelectorAll('.nav button').forEach(button => {
@@ -1095,7 +1106,18 @@
 
         // Inicializar la aplicación
         document.addEventListener('DOMContentLoaded', function() {
-            loadSectionData('dashboard');
+            console.log('Aplicación inicializada');
+            
+            // Asegurar que el dashboard esté visible al inicio
+            showSection('dashboard');
+            
+            // Agregar event listeners adicionales a los botones
+            document.querySelectorAll('.nav button').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    const sectionId = this.getAttribute('onclick').match(/'([^']+)'/)[1];
+                    showSection(sectionId, e);
+                });
+            });
             
             // Inicializar animaciones AOS
             if (typeof AOS !== 'undefined') {
