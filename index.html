@@ -806,7 +806,14 @@
 
         // Funciones de productos
         function showAddProductForm() {
-            document.getElementById('addProductForm').style.display = 'block';
+            console.log('Mostrando formulario de productos');
+            const form = document.getElementById('addProductForm');
+            if (form) {
+                form.style.display = 'block';
+                console.log('Formulario de productos mostrado');
+            } else {
+                console.error('Formulario de productos no encontrado');
+            }
         }
 
         function hideAddProductForm() {
@@ -818,10 +825,13 @@
         }
 
         function addProduct() {
+            console.log('Agregando producto...');
             const name = document.getElementById('productName').value;
             const description = document.getElementById('productDescription').value;
             const category = document.getElementById('productCategory').value;
             const price = parseFloat(document.getElementById('productPrice').value);
+
+            console.log('Datos del producto:', { name, description, category, price });
 
             if (!name || !description || !price) {
                 alert('Por favor, completa todos los campos');
@@ -837,6 +847,7 @@
             };
 
             products.push(newProduct);
+            console.log('Producto agregado:', newProduct);
             hideAddProductForm();
             loadProducts();
             showMessage('Producto agregado exitosamente', 'success');
@@ -861,7 +872,14 @@
 
         // Funciones de clientes
         function showAddClientForm() {
-            document.getElementById('addClientForm').style.display = 'block';
+            console.log('Mostrando formulario de clientes');
+            const form = document.getElementById('addClientForm');
+            if (form) {
+                form.style.display = 'block';
+                console.log('Formulario de clientes mostrado');
+            } else {
+                console.error('Formulario de clientes no encontrado');
+            }
         }
 
         function hideAddClientForm() {
@@ -873,10 +891,13 @@
         }
 
         function addClient() {
+            console.log('Agregando cliente...');
             const name = document.getElementById('clientName').value;
             const email = document.getElementById('clientEmail').value;
             const phone = document.getElementById('clientPhone').value;
             const businessType = document.getElementById('clientBusinessType').value;
+
+            console.log('Datos del cliente:', { name, email, phone, businessType });
 
             if (!name || !email || !phone) {
                 alert('Por favor, completa todos los campos obligatorios');
@@ -892,6 +913,7 @@
             };
 
             clients.push(newClient);
+            console.log('Cliente agregado:', newClient);
             hideAddClientForm();
             loadClients();
             showMessage('Cliente agregado exitosamente', 'success');
@@ -991,7 +1013,54 @@
         }
 
         function downloadPresentation() {
-            alert('Función de descarga de PDF en desarrollo. Por ahora, puedes hacer una captura de pantalla de la vista previa.');
+            console.log('Descargando presentación...');
+            const clientId = document.getElementById('presentationClient').value;
+            const title = document.getElementById('presentationTitle').value;
+            
+            console.log('Datos de presentación:', { clientId, title });
+
+            if (!clientId || !title) {
+                alert('Por favor, completa todos los campos');
+                return;
+            }
+
+            const client = clients.find(c => c.id === parseInt(clientId));
+            const selectedProducts = [];
+            
+            // Obtener productos seleccionados
+            products.forEach(product => {
+                const checkbox = document.getElementById(`product_${product.id}`);
+                if (checkbox && checkbox.checked) {
+                    selectedProducts.push(product);
+                }
+            });
+
+            console.log('Productos seleccionados:', selectedProducts);
+
+            if (selectedProducts.length === 0) {
+                alert('Por favor, selecciona al menos un producto');
+                return;
+            }
+
+            // Crear contenido del PDF
+            let pdfContent = `
+                <h1>${title}</h1>
+                <h2>Cliente: ${client.name}</h2>
+                <h3>Productos Seleccionados:</h3>
+                <ul>
+            `;
+
+            selectedProducts.forEach(product => {
+                pdfContent += `<li>${product.name} - €${product.price.toFixed(2)}</li>`;
+            });
+
+            pdfContent += `
+                </ul>
+                <p>Fecha: ${new Date().toLocaleDateString()}</p>
+            `;
+
+            console.log('Contenido del PDF generado');
+            alert('PDF generado exitosamente. En una implementación real, se descargaría el archivo.');
         }
 
         function loadPresentations() {
@@ -1002,8 +1071,15 @@
 
         // Funciones de ventas
         function showAddSaleForm() {
-            document.getElementById('addSaleForm').style.display = 'block';
-            loadSaleFormData();
+            console.log('Mostrando formulario de ventas');
+            const form = document.getElementById('addSaleForm');
+            if (form) {
+                form.style.display = 'block';
+                loadSaleFormData();
+                console.log('Formulario de ventas mostrado');
+            } else {
+                console.error('Formulario de ventas no encontrado');
+            }
         }
 
         function hideAddSaleForm() {
@@ -1045,10 +1121,13 @@
         }
 
         function addSale() {
+            console.log('Agregando venta...');
             const clientId = document.getElementById('saleClient').value;
             const productId = document.getElementById('saleProduct').value;
             const quantity = parseInt(document.getElementById('saleQuantity').value);
             const total = parseFloat(document.getElementById('saleTotal').value);
+
+            console.log('Datos de la venta:', { clientId, productId, quantity, total });
 
             if (!clientId || !productId || !quantity || !total) {
                 alert('Por favor, completa todos los campos');
@@ -1065,6 +1144,7 @@
             };
 
             sales.push(newSale);
+            console.log('Venta agregada:', newSale);
             hideAddSaleForm();
             loadSales();
             showMessage('Venta registrada exitosamente', 'success');
