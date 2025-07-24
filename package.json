@@ -1,0 +1,22 @@
+{
+  "name": "soprole-catalogos",
+  "version": "1.0.0",
+  "description": "Aplicación de gestión de catálogos y presentaciones para Soprole",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": ["soprole", "lacteos", "catalogos", "presentaciones"],
+  "author": "Soprole",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "helmet": "^7.0.0",
+    "compression": "^1.7.4"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  }
+} 

@@ -1,0 +1,1110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lácteos App - Gestión de Ventas</title>
+    <!-- Google Fonts - Fuentes profesionales gratuitas -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome - Iconos profesionales gratuitos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- AOS - Animaciones al hacer scroll -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            min-height: 100vh;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="50" cy="50" r="1" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .header h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 3em;
+            margin-bottom: 10px;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            position: relative;
+            z-index: 1;
+        }
+
+        .logo-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .logo-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .logo-icon i {
+            font-size: 28px;
+            color: white;
+        }
+
+        .header h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 3.5em;
+            margin-bottom: 5px;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            position: relative;
+            z-index: 1;
+            letter-spacing: 2px;
+        }
+
+        .tagline {
+            font-size: 1em;
+            opacity: 0.9;
+            font-weight: 400;
+            position: relative;
+            z-index: 1;
+            margin: 0;
+            font-style: italic;
+        }
+
+        .subtitle {
+            font-size: 1.3em;
+            opacity: 0.95;
+            font-weight: 300;
+            position: relative;
+            z-index: 1;
+            margin-top: 10px;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .nav {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 20px 30px;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+
+        .nav button {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            margin-right: 15px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .nav button:hover::before {
+            left: 100%;
+        }
+
+        .nav button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(231, 76, 60, 0.4);
+        }
+
+        .nav button.active {
+            background: linear-gradient(135deg, #c0392b 0%, #a93226 100%);
+            box-shadow: 0 4px 15px rgba(192, 57, 43, 0.4);
+        }
+
+        .content {
+            padding: 30px;
+            min-height: 500px;
+        }
+
+        .content h2 {
+            color: #e74c3c;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            margin-bottom: 25px;
+            font-size: 2.2em;
+            position: relative;
+        }
+
+        .content h2::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, #e74c3c, #c0392b);
+            border-radius: 2px;
+        }
+
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            border: 1px solid rgba(0,0,0,0.05);
+            border-radius: 20px;
+            padding: 30px 20px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #e74c3c, #c0392b);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        .card h3 {
+            color: #e74c3c;
+            margin-bottom: 10px;
+        }
+
+        .card .number {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #e74c3c;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .product-card {
+            border: 1px solid #e9ecef;
+            border-radius: 10px;
+            padding: 20px;
+            background: white;
+        }
+
+        .product-card h4 {
+            color: #e74c3c;
+            margin-bottom: 10px;
+        }
+
+        .product-card .price {
+            font-size: 1.5em;
+            color: #c0392b;
+            font-weight: bold;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+            outline: none;
+            border-color: #e74c3c;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.1);
+            transform: translateY(-1px);
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #e74c3c;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
+            position: relative;
+            overflow: hidden;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(231, 76, 60, 0.4);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #95a5a6 0%, #7f8c8d 100%);
+            box-shadow: 0 4px 15px rgba(149, 165, 166, 0.3);
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(149, 165, 166, 0.4);
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .table th, .table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .table th {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 12px;
+        }
+
+        .table tr:hover {
+            background: rgba(231, 76, 60, 0.05);
+            transition: background 0.3s ease;
+        }
+
+        .presentation-preview {
+            border: 2px dashed #ddd;
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            margin: 20px 0;
+            background: #f8f9fa;
+        }
+
+        .success-message {
+            background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+            color: #155724;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+            border: 1px solid #c3e6cb;
+            box-shadow: 0 4px 15px rgba(212, 237, 218, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .success-message::before {
+            content: '✓';
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 24px;
+            font-weight: bold;
+            color: #155724;
+        }
+
+        .error-message {
+            background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);
+            color: #721c24;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+            border: 1px solid #f5c6cb;
+            box-shadow: 0 4px 15px rgba(248, 215, 218, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .error-message::before {
+            content: '✗';
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 24px;
+            font-weight: bold;
+            color: #721c24;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo-container">
+                <div class="logo-icon">
+                    <i class="fas fa-tint"></i>
+                </div>
+                <h1>Soprole</h1>
+                <p class="tagline">Desde 1949®</p>
+            </div>
+            <p class="subtitle">Gestión de Ventas y Presentaciones</p>
+        </div>
+
+        <div class="nav">
+            <button onclick="showSection('dashboard')" class="active">
+                <i class="fas fa-chart-line"></i> Dashboard
+            </button>
+            <button onclick="showSection('products')">
+                <i class="fas fa-milk-bottle"></i> Productos
+            </button>
+            <button onclick="showSection('clients')">
+                <i class="fas fa-users"></i> Clientes
+            </button>
+            <button onclick="showSection('presentations')">
+                <i class="fas fa-file-alt"></i> Presentaciones
+            </button>
+            <button onclick="showSection('sales')">
+                <i class="fas fa-dollar-sign"></i> Ventas
+            </button>
+        </div>
+
+        <div class="content">
+            <!-- Dashboard -->
+            <div id="dashboard" class="section active">
+                <h2>Dashboard de Ventas</h2>
+                <div class="dashboard-grid">
+                    <div class="card" data-aos="fade-up" data-aos-delay="100">
+                        <h3><i class="fas fa-box"></i> Total Productos</h3>
+                        <div class="number">24</div>
+                    </div>
+                    <div class="card" data-aos="fade-up" data-aos-delay="200">
+                        <h3><i class="fas fa-users"></i> Clientes Activos</h3>
+                        <div class="number">12</div>
+                    </div>
+                    <div class="card" data-aos="fade-up" data-aos-delay="300">
+                        <h3><i class="fas fa-file-alt"></i> Presentaciones</h3>
+                        <div class="number">8</div>
+                    </div>
+                    <div class="card" data-aos="fade-up" data-aos-delay="400">
+                        <h3><i class="fas fa-euro-sign"></i> Ventas del Mes</h3>
+                        <div class="number">€15,420</div>
+                    </div>
+                </div>
+
+                <h3>Productos Más Vendidos</h3>
+                <div class="products-grid">
+                    <div class="product-card">
+                        <h4>Yogur Natural Griego</h4>
+                        <p>Yogur griego natural, rico en proteínas</p>
+                        <div class="price">€2.50</div>
+                    </div>
+                    <div class="product-card">
+                        <h4>Leche Entera Fresca</h4>
+                        <p>Leche entera fresca de vaca</p>
+                        <div class="price">€1.80</div>
+                    </div>
+                    <div class="product-card">
+                        <h4>Queso Manchego</h4>
+                        <p>Queso manchego curado 12 meses</p>
+                        <div class="price">€8.90</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Productos -->
+            <div id="products" class="section">
+                <h2><i class="fas fa-milk-bottle"></i> Gestión de Productos</h2>
+                <button class="btn" onclick="showAddProductForm()">
+                    <i class="fas fa-plus"></i> Agregar Producto
+                </button>
+                
+                <div id="addProductForm" style="display: none; margin-top: 20px;">
+                    <h3>Nuevo Producto</h3>
+                    <div class="form-group">
+                        <label>Nombre del Producto:</label>
+                        <input type="text" id="productName" placeholder="Ej: Yogur Natural">
+                    </div>
+                    <div class="form-group">
+                        <label>Descripción:</label>
+                        <textarea id="productDescription" placeholder="Descripción del producto"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Categoría:</label>
+                        <select id="productCategory">
+                            <option value="yogures">Yogures</option>
+                            <option value="leches">Leches</option>
+                            <option value="quesos">Quesos</option>
+                            <option value="mantequillas">Mantequillas</option>
+                            <option value="postres">Postres Lácteos</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Precio (€):</label>
+                        <input type="number" id="productPrice" step="0.01" placeholder="0.00">
+                    </div>
+                    <button class="btn" onclick="addProduct()">
+                        <i class="fas fa-save"></i> Guardar Producto
+                    </button>
+                    <button class="btn btn-secondary" onclick="hideAddProductForm()">
+                        <i class="fas fa-times"></i> Cancelar
+                    </button>
+                </div>
+
+                <h3>Catálogo de Productos</h3>
+                <div class="products-grid" id="productsList">
+                    <!-- Los productos se cargarán dinámicamente -->
+                </div>
+            </div>
+
+            <!-- Clientes -->
+            <div id="clients" class="section">
+                <h2><i class="fas fa-users"></i> Gestión de Clientes</h2>
+                <button class="btn" onclick="showAddClientForm()">
+                    <i class="fas fa-plus"></i> Agregar Cliente
+                </button>
+                
+                <div id="addClientForm" style="display: none; margin-top: 20px;">
+                    <h3>Nuevo Cliente</h3>
+                    <div class="form-group">
+                        <label>Nombre del Cliente:</label>
+                        <input type="text" id="clientName" placeholder="Ej: Supermercado Central">
+                    </div>
+                    <div class="form-group">
+                        <label>Email:</label>
+                        <input type="email" id="clientEmail" placeholder="cliente@email.com">
+                    </div>
+                    <div class="form-group">
+                        <label>Teléfono:</label>
+                        <input type="tel" id="clientPhone" placeholder="+34 91 123 4567">
+                    </div>
+                    <div class="form-group">
+                        <label>Tipo de Negocio:</label>
+                        <select id="clientBusinessType">
+                            <option value="supermercado">Supermercado</option>
+                            <option value="restaurante">Restaurante</option>
+                            <option value="cafeteria">Cafetería</option>
+                            <option value="hotel">Hotel</option>
+                            <option value="otros">Otros</option>
+                        </select>
+                    </div>
+                    <button class="btn" onclick="addClient()">
+                        <i class="fas fa-save"></i> Guardar Cliente
+                    </button>
+                    <button class="btn btn-secondary" onclick="hideAddClientForm()">
+                        <i class="fas fa-times"></i> Cancelar
+                    </button>
+                </div>
+
+                <h3>Base de Datos de Clientes</h3>
+                <div id="clientsList">
+                    <!-- Los clientes se cargarán dinámicamente -->
+                </div>
+            </div>
+
+            <!-- Presentaciones -->
+            <div id="presentations" class="section">
+                <h2><i class="fas fa-file-alt"></i> Generador de Presentaciones</h2>
+                <button class="btn" onclick="showCreatePresentationForm()">
+                    <i class="fas fa-plus"></i> Crear Presentación
+                </button>
+                
+                <div id="createPresentationForm" style="display: none; margin-top: 20px;">
+                    <h3>Nueva Presentación</h3>
+                    <div class="form-group">
+                        <label>Cliente:</label>
+                        <select id="presentationClient">
+                            <option value="">Seleccionar cliente...</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Título de la Presentación:</label>
+                        <input type="text" id="presentationTitle" placeholder="Ej: Catálogo de Productos Lácteos">
+                    </div>
+                    <div class="form-group">
+                        <label>Productos a Incluir:</label>
+                        <div id="presentationProducts">
+                            <!-- Checkboxes de productos -->
+                        </div>
+                    </div>
+                    <button class="btn" onclick="createPresentation()">
+                        <i class="fas fa-magic"></i> Generar Presentación
+                    </button>
+                    <button class="btn btn-secondary" onclick="hideCreatePresentationForm()">
+                        <i class="fas fa-times"></i> Cancelar
+                    </button>
+                </div>
+
+                <div id="presentationPreview" class="presentation-preview" style="display: none;">
+                    <h3>Vista Previa de la Presentación</h3>
+                    <div id="previewContent"></div>
+                    <button class="btn" onclick="downloadPresentation()">
+                        <i class="fas fa-download"></i> Descargar PDF
+                    </button>
+                </div>
+
+                <h3>Presentaciones Creadas</h3>
+                <div id="presentationsList">
+                    <!-- Las presentaciones se cargarán dinámicamente -->
+                </div>
+            </div>
+
+            <!-- Ventas -->
+            <div id="sales" class="section">
+                <h2><i class="fas fa-dollar-sign"></i> Gestión de Ventas</h2>
+                <button class="btn" onclick="showAddSaleForm()">
+                    <i class="fas fa-plus"></i> Registrar Venta
+                </button>
+                
+                <div id="addSaleForm" style="display: none; margin-top: 20px;">
+                    <h3>Nueva Venta</h3>
+                    <div class="form-group">
+                        <label>Cliente:</label>
+                        <select id="saleClient">
+                            <option value="">Seleccionar cliente...</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Producto:</label>
+                        <select id="saleProduct">
+                            <option value="">Seleccionar producto...</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Cantidad:</label>
+                        <input type="number" id="saleQuantity" min="1" value="1">
+                    </div>
+                    <div class="form-group">
+                        <label>Precio Unitario (€):</label>
+                        <input type="number" id="saleUnitPrice" step="0.01" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label>Total (€):</label>
+                        <input type="number" id="saleTotal" step="0.01" readonly>
+                    </div>
+                    <button class="btn" onclick="addSale()">
+                        <i class="fas fa-save"></i> Registrar Venta
+                    </button>
+                    <button class="btn btn-secondary" onclick="hideAddSaleForm()">
+                        <i class="fas fa-times"></i> Cancelar
+                    </button>
+                </div>
+
+                <h3>Historial de Ventas</h3>
+                <table class="table" id="salesTable">
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Cliente</th>
+                            <th>Producto</th>
+                            <th>Cantidad</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody id="salesTableBody">
+                        <!-- Las ventas se cargarán dinámicamente -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Datos de ejemplo
+        let products = [
+            { id: 1, name: 'Yogur Natural Griego', description: 'Yogur griego natural, rico en proteínas', category: 'yogures', price: 2.50 },
+            { id: 2, name: 'Leche Entera Fresca', description: 'Leche entera fresca de vaca', category: 'leches', price: 1.80 },
+            { id: 3, name: 'Queso Manchego Curado', description: 'Queso manchego curado 12 meses', category: 'quesos', price: 8.90 },
+            { id: 4, name: 'Mantequilla Sin Sal', description: 'Mantequilla natural sin sal', category: 'mantequillas', price: 3.20 },
+            { id: 5, name: 'Flan Casero', description: 'Flan casero tradicional', category: 'postres', price: 2.80 }
+        ];
+
+        let clients = [
+            { id: 1, name: 'Supermercado Central', email: 'pedidos@supercentral.com', phone: '+34 91 123 4567', businessType: 'supermercado' },
+            { id: 2, name: 'Restaurante El Buen Sabor', email: 'chef@elbuensabor.com', phone: '+34 91 987 6543', businessType: 'restaurante' },
+            { id: 3, name: 'Cafetería La Lechera', email: 'info@lalechera.com', phone: '+34 91 555 1234', businessType: 'cafeteria' }
+        ];
+
+        let sales = [
+            { id: 1, date: '2024-01-15', clientId: 1, productId: 1, quantity: 20, total: 50.00 },
+            { id: 2, date: '2024-01-16', clientId: 2, productId: 3, quantity: 5, total: 44.50 },
+            { id: 3, date: '2024-01-17', clientId: 3, productId: 2, quantity: 25, total: 45.00 }
+        ];
+
+        // Funciones de navegación
+        function showSection(sectionId) {
+            // Ocultar todas las secciones
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Mostrar la sección seleccionada
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Actualizar botones activos
+            document.querySelectorAll('.nav button').forEach(button => {
+                button.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Cargar datos específicos de la sección
+            loadSectionData(sectionId);
+        }
+
+        function loadSectionData(sectionId) {
+            switch(sectionId) {
+                case 'products':
+                    loadProducts();
+                    break;
+                case 'clients':
+                    loadClients();
+                    break;
+                case 'presentations':
+                    loadPresentations();
+                    break;
+                case 'sales':
+                    loadSales();
+                    break;
+            }
+        }
+
+        // Funciones de productos
+        function showAddProductForm() {
+            document.getElementById('addProductForm').style.display = 'block';
+        }
+
+        function hideAddProductForm() {
+            document.getElementById('addProductForm').style.display = 'none';
+            // Limpiar formulario
+            document.getElementById('productName').value = '';
+            document.getElementById('productDescription').value = '';
+            document.getElementById('productPrice').value = '';
+        }
+
+        function addProduct() {
+            const name = document.getElementById('productName').value;
+            const description = document.getElementById('productDescription').value;
+            const category = document.getElementById('productCategory').value;
+            const price = parseFloat(document.getElementById('productPrice').value);
+
+            if (!name || !description || !price) {
+                alert('Por favor, completa todos los campos');
+                return;
+            }
+
+            const newProduct = {
+                id: products.length + 1,
+                name: name,
+                description: description,
+                category: category,
+                price: price
+            };
+
+            products.push(newProduct);
+            hideAddProductForm();
+            loadProducts();
+            showMessage('Producto agregado exitosamente', 'success');
+        }
+
+        function loadProducts() {
+            const container = document.getElementById('productsList');
+            container.innerHTML = '';
+
+            products.forEach(product => {
+                const productCard = document.createElement('div');
+                productCard.className = 'product-card';
+                productCard.innerHTML = `
+                    <h4>${product.name}</h4>
+                    <p>${product.description}</p>
+                    <p><strong>Categoría:</strong> ${product.category}</p>
+                    <div class="price">€${product.price.toFixed(2)}</div>
+                `;
+                container.appendChild(productCard);
+            });
+        }
+
+        // Funciones de clientes
+        function showAddClientForm() {
+            document.getElementById('addClientForm').style.display = 'block';
+        }
+
+        function hideAddClientForm() {
+            document.getElementById('addClientForm').style.display = 'none';
+            // Limpiar formulario
+            document.getElementById('clientName').value = '';
+            document.getElementById('clientEmail').value = '';
+            document.getElementById('clientPhone').value = '';
+        }
+
+        function addClient() {
+            const name = document.getElementById('clientName').value;
+            const email = document.getElementById('clientEmail').value;
+            const phone = document.getElementById('clientPhone').value;
+            const businessType = document.getElementById('clientBusinessType').value;
+
+            if (!name || !email || !phone) {
+                alert('Por favor, completa todos los campos obligatorios');
+                return;
+            }
+
+            const newClient = {
+                id: clients.length + 1,
+                name: name,
+                email: email,
+                phone: phone,
+                businessType: businessType
+            };
+
+            clients.push(newClient);
+            hideAddClientForm();
+            loadClients();
+            showMessage('Cliente agregado exitosamente', 'success');
+        }
+
+        function loadClients() {
+            const container = document.getElementById('clientsList');
+            container.innerHTML = '';
+
+            clients.forEach(client => {
+                const clientCard = document.createElement('div');
+                clientCard.className = 'product-card';
+                clientCard.innerHTML = `
+                    <h4>${client.name}</h4>
+                    <p><strong>Email:</strong> ${client.email}</p>
+                    <p><strong>Teléfono:</strong> ${client.phone}</p>
+                    <p><strong>Tipo:</strong> ${client.businessType}</p>
+                `;
+                container.appendChild(clientCard);
+            });
+        }
+
+        // Funciones de presentaciones
+        function showCreatePresentationForm() {
+            document.getElementById('createPresentationForm').style.display = 'block';
+            loadPresentationFormData();
+        }
+
+        function hideCreatePresentationForm() {
+            document.getElementById('createPresentationForm').style.display = 'none';
+            document.getElementById('presentationPreview').style.display = 'none';
+        }
+
+        function loadPresentationFormData() {
+            // Cargar clientes en el select
+            const clientSelect = document.getElementById('presentationClient');
+            clientSelect.innerHTML = '<option value="">Seleccionar cliente...</option>';
+            clients.forEach(client => {
+                clientSelect.innerHTML += `<option value="${client.id}">${client.name}</option>`;
+            });
+
+            // Cargar productos como checkboxes
+            const productsContainer = document.getElementById('presentationProducts');
+            productsContainer.innerHTML = '';
+            products.forEach(product => {
+                const checkbox = document.createElement('div');
+                checkbox.innerHTML = `
+                    <input type="checkbox" id="product_${product.id}" value="${product.id}">
+                    <label for="product_${product.id}">${product.name} - €${product.price.toFixed(2)}</label>
+                `;
+                productsContainer.appendChild(checkbox);
+            });
+        }
+
+        function createPresentation() {
+            const clientId = document.getElementById('presentationClient').value;
+            const title = document.getElementById('presentationTitle').value;
+
+            if (!clientId || !title) {
+                alert('Por favor, selecciona un cliente y agrega un título');
+                return;
+            }
+
+            const selectedProducts = [];
+            products.forEach(product => {
+                const checkbox = document.getElementById(`product_${product.id}`);
+                if (checkbox.checked) {
+                    selectedProducts.push(product);
+                }
+            });
+
+            if (selectedProducts.length === 0) {
+                alert('Por favor, selecciona al menos un producto');
+                return;
+            }
+
+            // Mostrar vista previa
+            const client = clients.find(c => c.id == clientId);
+            const previewContent = document.getElementById('previewContent');
+            previewContent.innerHTML = `
+                <h2>${title}</h2>
+                <p><strong>Cliente:</strong> ${client.name}</p>
+                <p><strong>Fecha:</strong> ${new Date().toLocaleDateString()}</p>
+                <hr>
+                <h3>Productos Seleccionados:</h3>
+                ${selectedProducts.map(product => `
+                    <div style="margin: 10px 0; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                        <h4>${product.name}</h4>
+                        <p>${product.description}</p>
+                        <p><strong>Precio:</strong> €${product.price.toFixed(2)}</p>
+                    </div>
+                `).join('')}
+            `;
+
+            document.getElementById('presentationPreview').style.display = 'block';
+            showMessage('Presentación creada exitosamente', 'success');
+        }
+
+        function downloadPresentation() {
+            alert('Función de descarga de PDF en desarrollo. Por ahora, puedes hacer una captura de pantalla de la vista previa.');
+        }
+
+        function loadPresentations() {
+            // Aquí se cargarían las presentaciones guardadas
+            const container = document.getElementById('presentationsList');
+            container.innerHTML = '<p>No hay presentaciones guardadas aún.</p>';
+        }
+
+        // Funciones de ventas
+        function showAddSaleForm() {
+            document.getElementById('addSaleForm').style.display = 'block';
+            loadSaleFormData();
+        }
+
+        function hideAddSaleForm() {
+            document.getElementById('addSaleForm').style.display = 'none';
+        }
+
+        function loadSaleFormData() {
+            // Cargar clientes
+            const clientSelect = document.getElementById('saleClient');
+            clientSelect.innerHTML = '<option value="">Seleccionar cliente...</option>';
+            clients.forEach(client => {
+                clientSelect.innerHTML += `<option value="${client.id}">${client.name}</option>`;
+            });
+
+            // Cargar productos
+            const productSelect = document.getElementById('saleProduct');
+            productSelect.innerHTML = '<option value="">Seleccionar producto...</option>';
+            products.forEach(product => {
+                productSelect.innerHTML += `<option value="${product.id}" data-price="${product.price}">${product.name} - €${product.price.toFixed(2)}</option>`;
+            });
+
+            // Event listeners para calcular total
+            document.getElementById('saleProduct').addEventListener('change', calculateSaleTotal);
+            document.getElementById('saleQuantity').addEventListener('input', calculateSaleTotal);
+        }
+
+        function calculateSaleTotal() {
+            const productSelect = document.getElementById('saleProduct');
+            const quantity = parseInt(document.getElementById('saleQuantity').value) || 0;
+            
+            if (productSelect.value) {
+                const selectedOption = productSelect.options[productSelect.selectedIndex];
+                const price = parseFloat(selectedOption.dataset.price);
+                const total = price * quantity;
+                
+                document.getElementById('saleUnitPrice').value = price.toFixed(2);
+                document.getElementById('saleTotal').value = total.toFixed(2);
+            }
+        }
+
+        function addSale() {
+            const clientId = document.getElementById('saleClient').value;
+            const productId = document.getElementById('saleProduct').value;
+            const quantity = parseInt(document.getElementById('saleQuantity').value);
+            const total = parseFloat(document.getElementById('saleTotal').value);
+
+            if (!clientId || !productId || !quantity || !total) {
+                alert('Por favor, completa todos los campos');
+                return;
+            }
+
+            const newSale = {
+                id: sales.length + 1,
+                date: new Date().toISOString().split('T')[0],
+                clientId: parseInt(clientId),
+                productId: parseInt(productId),
+                quantity: quantity,
+                total: total
+            };
+
+            sales.push(newSale);
+            hideAddSaleForm();
+            loadSales();
+            showMessage('Venta registrada exitosamente', 'success');
+        }
+
+        function loadSales() {
+            const tbody = document.getElementById('salesTableBody');
+            tbody.innerHTML = '';
+
+            sales.forEach(sale => {
+                const client = clients.find(c => c.id === sale.clientId);
+                const product = products.find(p => p.id === sale.productId);
+                
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${sale.date}</td>
+                    <td>${client ? client.name : 'N/A'}</td>
+                    <td>${product ? product.name : 'N/A'}</td>
+                    <td>${sale.quantity}</td>
+                    <td>€${sale.total.toFixed(2)}</td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // Función para mostrar mensajes
+        function showMessage(message, type) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = type === 'success' ? 'success-message' : 'error-message';
+            messageDiv.textContent = message;
+            
+            const content = document.querySelector('.content');
+            content.insertBefore(messageDiv, content.firstChild);
+            
+            setTimeout(() => {
+                messageDiv.remove();
+            }, 3000);
+        }
+
+        // Inicializar la aplicación
+        document.addEventListener('DOMContentLoaded', function() {
+            loadSectionData('dashboard');
+            
+            // Inicializar animaciones AOS
+            if (typeof AOS !== 'undefined') {
+                AOS.init({
+                    duration: 800,
+                    easing: 'ease-in-out',
+                    once: true
+                });
+            }
+        });
+    </script>
+    
+    <!-- AOS - Animaciones al hacer scroll -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+</body>
+</html> 
