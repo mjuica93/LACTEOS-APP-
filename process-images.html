@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Procesador de Imágenes - Catálogo Soprole</title>
+    <script src='https://unpkg.com/tesseract.js@v2.1.0/dist/tesseract.min.js'></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: white;
+        }
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .image-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .image-item img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+        .ocr-result {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+            font-size: 12px;
+            text-align: left;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        .process-btn {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px;
+            transition: background 0.3s;
+        }
+        .process-btn:hover {
+            background: #c0392b;
+        }
+        .process-btn:disabled {
+            background: #666;
+            cursor: not-allowed;
+        }
+        .progress {
+            background: rgba(255, 255, 255, 0.2);
+            height: 20px;
+            border-radius: 10px;
+            margin: 10px 0;
+            overflow: hidden;
+        }
+        .progress-bar {
+            background: #27ae60;
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s;
+        }
+        .json-output {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .status {
+            text-align: center;
+            margin: 20px 0;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🥛 Procesador de Catálogo Soprole</h1>
+        
+        <div class="status" id="status">Cargando imágenes...</div>
+        
+        <div class="image-grid" id="imageGrid">
+            <!-- Las imágenes se cargarán aquí -->
+        </div>
+        
+        <div style="text-align: center;">
+            <button class="process-btn" onclick="processAllImages()" id="processBtn">
+                🔍 Procesar Todas las Imágenes con OCR
+            </button>
+            <button class="process-btn" onclick="generateJSON()" id="jsonBtn" disabled>
+                📄 Generar JSON de Productos
+            </button>
+        </div>
+        
+        <div class="progress" id="progressContainer" style="display: none;">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+        
+        <div class="json-output" id="jsonOutput" style="display: none;"></div>
+    </div>
+
+    <script>
+        let processedImages = [];
+        let currentProgress = 0;
+        
+        // Cargar las imágenes
+        window.onload = function() {
+            const imageGrid = document.getElementById('imageGrid');
+            
+            for (let i = 1; i <= 10; i++) {
+                const imageItem = document.createElement('div');
+                imageItem.className = 'image-item';
+                imageItem.innerHTML = `
+                    <img src="CATÁLOGO REAL/${i}.png" alt="Producto ${i}" id="img${i}">
+                    <div>Producto ${i}</div>
+                    <div class="ocr-result" id="result${i}">Pendiente de procesar...</div>
+                `;
+                imageGrid.appendChild(imageItem);
+            }
+            
+            document.getElementById('status').textContent = 'Imágenes cargadas. Haz clic en "Procesar" para extraer texto.';
+        };
+        
+        async function processAllImages() {
+            const processBtn = document.getElementById('processBtn');
+            const progressContainer = document.getElementById('progressContainer');
+            const progressBar = document.getElementById('progressBar');
+            const status = document.getElementById('status');
+            
+            processBtn.disabled = true;
+            progressContainer.style.display = 'block';
+            processedImages = [];
+            currentProgress = 0;
+            
+            status.textContent = 'Iniciando procesamiento OCR...';
+            
+            for (let i = 1; i <= 10; i++) {
+                try {
+                    status.textContent = `Procesando imagen ${i}/10...`;
+                    
+                    const result = await Tesseract.recognize(
+                        `CATÁLOGO REAL/${i}.png`,
+                        'spa',
+                        { logger: m => console.log(m) }
+                    );
+                    
+                    const text = result.data.text;
+                    document.getElementById(`result${i}`).textContent = text;
+                    
+                    processedImages.push({
+                        id: i,
+                        image: `${i}.png`,
+                        text: text,
+                        processed: true
+                    });
+                    
+                    currentProgress = (i / 10) * 100;
+                    progressBar.style.width = currentProgress + '%';
+                    
+                } catch (error) {
+                    console.error(`Error procesando imagen ${i}:`, error);
+                    document.getElementById(`result${i}`).textContent = 'Error en el procesamiento';
+                    
+                    processedImages.push({
+                        id: i,
+                        image: `${i}.png`,
+                        text: 'Error en el procesamiento',
+                        processed: false
+                    });
+                }
+            }
+            
+            status.textContent = '¡Procesamiento completado! Ahora puedes generar el JSON.';
+            document.getElementById('jsonBtn').disabled = false;
+            processBtn.disabled = false;
+        }
+        
+        function generateJSON() {
+            const jsonOutput = document.getElementById('jsonOutput');
+            const status = document.getElementById('status');
+            
+            // Extraer información de los productos basándose en el texto OCR
+            const products = processedImages.map((item, index) => {
+                const text = item.text.toLowerCase();
+                
+                // Extraer información básica del texto
+                let name = `Producto Leche ${index + 1}`;
+                let description = 'Producto lácteo de alta calidad';
+                let price = 1.50 + (index * 0.10); // Precio base + incremento
+                let unit = '1L';
+                
+                // Intentar extraer información específica del texto
+                if (text.includes('entera')) {
+                    name = `Leche Soprole Entera ${index + 1}`;
+                    description = 'Leche entera fresca de vaca, rica en calcio y vitaminas';
+                } else if (text.includes('semidescremada') || text.includes('semi')) {
+                    name = `Leche Soprole Semidescremada ${index + 1}`;
+                    description = 'Leche semidescremada con 2% de grasa, ideal para una dieta balanceada';
+                    price = 1.40 + (index * 0.10);
+                } else if (text.includes('descremada') || text.includes('desnatada')) {
+                    name = `Leche Soprole Descremada ${index + 1}`;
+                    description = 'Leche descremada sin grasa, perfecta para dietas bajas en calorías';
+                    price = 1.30 + (index * 0.10);
+                }
+                
+                // Detectar unidades
+                if (text.includes('500ml') || text.includes('500 ml')) {
+                    unit = '500ml';
+                    price = price * 0.5;
+                } else if (text.includes('2l') || text.includes('2 l')) {
+                    unit = '2L';
+                    price = price * 2;
+                }
+                
+                return {
+                    id: index + 1,
+                    name: name,
+                    description: description,
+                    category: "Leches",
+                    categoryId: 1,
+                    price: parseFloat(price.toFixed(2)),
+                    unit: unit,
+                    image: item.image,
+                    nutritionalInfo: {
+                        calories: 120 - (index * 5),
+                        protein: "3.2g",
+                        fat: "3.5g",
+                        carbohydrates: "4.8g",
+                        calcium: "120mg"
+                    },
+                    ingredients: ["Leche", "Vitaminas A y D"],
+                    allergens: ["Lactosa"],
+                    ocrText: item.text
+                };
+            });
+            
+            const catalogData = {
+                categories: [
+                    {
+                        id: 1,
+                        name: "Leches",
+                        icon: "fas fa-milk-bottle",
+                        description: "Leches frescas y procesadas"
+                    }
+                ],
+                products: products
+            };
+            
+            jsonOutput.textContent = JSON.stringify(catalogData, null, 2);
+            jsonOutput.style.display = 'block';
+            
+            status.textContent = 'JSON generado. Copia el contenido y reemplaza el archivo soprole-products.json';
+            
+            // Crear un botón para descargar el JSON
+            const downloadBtn = document.createElement('button');
+            downloadBtn.className = 'process-btn';
+            downloadBtn.textContent = '💾 Descargar JSON';
+            downloadBtn.onclick = () => downloadJSON(catalogData);
+            jsonOutput.parentNode.insertBefore(downloadBtn, jsonOutput);
+        }
+        
+        function downloadJSON(data) {
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'soprole-products-updated.json';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+    </script>
+</body>
+</html> 

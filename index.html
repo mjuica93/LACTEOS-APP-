@@ -310,6 +310,45 @@
             font-size: 0.85em;
         }
 
+        .product-card .product-features {
+            margin: 10px 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+
+        .product-card .feature-tag {
+            background: #e74c3c;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.75em;
+            font-weight: 500;
+        }
+
+        .product-card .product-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border: 2px solid #e74c3c;
+        }
+
+        .product-card .product-image-placeholder {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            border-radius: 8px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3em;
+            border: 2px solid #e74c3c;
+        }
+
         .form-group {
             margin-bottom: 20px;
         }
@@ -931,6 +970,12 @@
                 const productCard = document.createElement('div');
                 productCard.className = 'product-card';
                 
+                // Imagen del producto si está disponible
+                const productImage = product.image ? 
+                    `<img src="CATÁLOGO REAL/${product.image}" alt="${product.name}" class="product-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">` : '';
+                
+                const imagePlaceholder = `<div class="product-image-placeholder">🥛</div>`;
+                
                 // Información nutricional si está disponible
                 const nutritionalInfo = product.nutritionalInfo ? `
                     <div class="nutritional-info">
@@ -940,14 +985,24 @@
                     </div>
                 ` : '';
                 
+                // Características del producto si están disponibles
+                const features = product.features ? `
+                    <div class="product-features">
+                        ${product.features.map(feature => `<span class="feature-tag">${feature}</span>`).join('')}
+                    </div>
+                ` : '';
+                
                 // Unidad si está disponible
                 const unit = product.unit ? `<small class="unit">${product.unit}</small>` : '';
                 
                 productCard.innerHTML = `
+                    ${productImage}
+                    ${imagePlaceholder}
                     <h4>${product.name}</h4>
                     <p>${product.description}</p>
                     <p><strong>Categoría:</strong> ${product.category}</p>
                     ${nutritionalInfo}
+                    ${features}
                     <div class="price">€${product.price.toFixed(2)} ${unit}</div>
                 `;
                 container.appendChild(productCard);
